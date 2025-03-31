@@ -1,0 +1,899 @@
+{
+  "name": "Character flow",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://knave-service:8000/create-character",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "player_id",
+              "value": "={{ $json.name }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 1000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        800,
+        20
+      ],
+      "id": "ebcea86a-2ab5-427d-b873-eebc23d74187",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appXiZb9r2SJXEO2C",
+          "mode": "list",
+          "cachedResultName": "Hackaton",
+          "cachedResultUrl": "https://airtable.com/appXiZb9r2SJXEO2C"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblWa5MbsCn0zH4Jd",
+          "mode": "list",
+          "cachedResultName": "characterDB",
+          "cachedResultUrl": "https://airtable.com/appXiZb9r2SJXEO2C/tblWa5MbsCn0zH4Jd"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "player_id",
+              "displayName": "player_id",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "hit_points",
+              "displayName": "hit_points",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "strength_bonus",
+              "displayName": "strength_bonus",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "strength_defense",
+              "displayName": "strength_defense",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "dexterity_bonus",
+              "displayName": "dexterity_bonus",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "dexterity_defense",
+              "displayName": "dexterity_defense",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "constitution_bonus",
+              "displayName": "constitution_bonus",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "constitution_defense",
+              "displayName": "constitution_defense",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "intelligence_bonus",
+              "displayName": "intelligence_bonus",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "intelligence_defense",
+              "displayName": "intelligence_defense",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "wisdom_bonus",
+              "displayName": "wisdom_bonus",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "wisdom_defense",
+              "displayName": "wisdom_defense",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "charisma_bonus",
+              "displayName": "charisma_bonus",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "charisma_defense",
+              "displayName": "charisma_defense",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "inventory_weapon",
+              "displayName": "inventory_weapon",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "inventory_armor",
+              "displayName": "inventory_armor",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "inventory_shield",
+              "displayName": "inventory_shield",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "dungeon_gear",
+              "displayName": "dungeon_gear",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "gear1",
+              "displayName": "gear1",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "gear2",
+              "displayName": "gear2",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "traits_physique",
+              "displayName": "traits_physique",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "traits_face",
+              "displayName": "traits_face",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "traits_skin",
+              "displayName": "traits_skin",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "traits_hair",
+              "displayName": "traits_hair",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "traits_clothing",
+              "displayName": "traits_clothing",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "traits_virtue",
+              "displayName": "traits_virtue",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "traits_vice",
+              "displayName": "traits_vice",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "traits_speech",
+              "displayName": "traits_speech",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "traits_background",
+              "displayName": "traits_background",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "traits_misfortune",
+              "displayName": "traits_misfortune",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "traits_alignment",
+              "displayName": "traits_alignment",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "raw_json",
+              "displayName": "raw_json",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1020,
+        20
+      ],
+      "id": "2027d0e5-80e2-45a1-8cc8-8ed877fa74ff",
+      "name": "Airtable",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "LkPhakpicDanWHgL",
+          "name": "Hackaton"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.way }}",
+                    "rightValue": "create",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "99382d22-f367-4b84-b2b0-18a4d112468a"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Create"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "c48ce5ca-47a1-4e3f-ba0a-b5e66c9124bd",
+                    "leftValue": "={{ $json.way }}",
+                    "rightValue": "search",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Search"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "d2dee4b8-5130-4157-8ef2-db9ebaab107a",
+                    "leftValue": "={{ $json.way }}",
+                    "rightValue": "update",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Update"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "1abb87a7-e2f3-479d-a562-a6f3dcc4f8ee",
+                    "leftValue": "={{ $json.way }}",
+                    "rightValue": "delete",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Delete"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "a9c26f85-69f4-4bd3-9ee3-b9f517fb1f4f",
+                    "leftValue": "={{ $json.way }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notExists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        360,
+        278
+      ],
+      "id": "4f22360b-1337-4217-aace-5a79b0973ba9",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appXiZb9r2SJXEO2C",
+          "mode": "list",
+          "cachedResultName": "Hackaton",
+          "cachedResultUrl": "https://airtable.com/appXiZb9r2SJXEO2C"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblWa5MbsCn0zH4Jd",
+          "mode": "list",
+          "cachedResultName": "characterDB",
+          "cachedResultUrl": "https://airtable.com/appXiZb9r2SJXEO2C/tblWa5MbsCn0zH4Jd"
+        },
+        "filterByFormula": "=",
+        "returnAll": false,
+        "limit": 1,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        580,
+        280
+      ],
+      "id": "e0dffaee-a608-4359-88e7-f2178bed4823",
+      "name": "Airtable2",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "LkPhakpicDanWHgL",
+          "name": "Hackaton"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e396501e-68cb-4a4e-9975-bb3be5e5426b",
+              "name": "name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "25addb42-2255-48ee-9f8a-328bc255ebe2",
+              "name": "way",
+              "value": "={{ $json.way }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        60,
+        320
+      ],
+      "id": "ec1677d6-a41e-4be0-a758-623117bdf537",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "deleteRecord",
+        "base": {
+          "__rl": true,
+          "value": "appXiZb9r2SJXEO2C",
+          "mode": "list",
+          "cachedResultName": "Hackaton",
+          "cachedResultUrl": "https://airtable.com/appXiZb9r2SJXEO2C"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblWa5MbsCn0zH4Jd",
+          "mode": "list",
+          "cachedResultName": "characterDB",
+          "cachedResultUrl": "https://airtable.com/appXiZb9r2SJXEO2C/tblWa5MbsCn0zH4Jd"
+        },
+        "id": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        800,
+        520
+      ],
+      "id": "66f00819-8d00-42e3-af9d-964cee7fab05",
+      "name": "Airtable1",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "LkPhakpicDanWHgL",
+          "name": "Hackaton"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appXiZb9r2SJXEO2C",
+          "mode": "list",
+          "cachedResultName": "Hackaton",
+          "cachedResultUrl": "https://airtable.com/appXiZb9r2SJXEO2C"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblWa5MbsCn0zH4Jd",
+          "mode": "list",
+          "cachedResultName": "characterDB",
+          "cachedResultUrl": "https://airtable.com/appXiZb9r2SJXEO2C/tblWa5MbsCn0zH4Jd"
+        },
+        "filterByFormula": "={player_id} = '{{ $('When Executed by Another Workflow').item.json.player_id }}'",
+        "returnAll": false,
+        "limit": 1,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        580,
+        520
+      ],
+      "id": "d5fc238b-ec40-4500-b0b7-786f15023a7f",
+      "name": "Airtable3",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "LkPhakpicDanWHgL",
+          "name": "Hackaton"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d9e3fe91-8299-4906-a929-4402ac69f46b",
+              "leftValue": "={{ $('When Executed by Another Workflow').item.json.player_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        580,
+        120
+      ],
+      "id": "6cc40148-7754-466d-bd7f-f0a4c20a9060",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "name"
+            },
+            {
+              "name": "way"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -320,
+        320
+      ],
+      "id": "92242219-6675-458e-a2c3-cc0d8059300c",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "errorMessage": "=Error"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        800,
+        320
+      ],
+      "id": "67dc72cd-9b39-474a-a2fc-366d83707019",
+      "name": "Stop and Error"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Airtable2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [],
+        [
+          {
+            "node": "Airtable3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable3": {
+      "main": [
+        [
+          {
+            "node": "Airtable1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable": {
+      "main": [
+        []
+      ]
+    },
+    "Airtable1": {
+      "main": [
+        []
+      ]
+    },
+    "Airtable2": {
+      "main": [
+        []
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "90aed054-7ab3-47f4-91f2-8c4b03bf4ed3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5045cbec8147e6835edbf16d496f5ee0340849107d07dca439fb9c0c1a6a15a9"
+  },
+  "id": "zkiGyccWST8jx3RV",
+  "tags": [
+    {
+      "createdAt": "2025-03-27T16:25:08.062Z",
+      "updatedAt": "2025-03-27T16:25:08.062Z",
+      "id": "hGOVUt5yGSnSzBIk",
+      "name": "Hackaton"
+    }
+  ]
+}

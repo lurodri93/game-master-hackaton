@@ -1,0 +1,698 @@
+{
+  "name": "Monster scrap",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -180,
+        -120
+      ],
+      "id": "b3c07440-bba6-42c6-97a2-06229e9a826a",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        260,
+        -120
+      ],
+      "id": "fccc5118-d440-4207-8520-c6d2a5eb891d",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        920,
+        -120
+      ],
+      "id": "f6348040-6799-4c35-b124-771ec10d3c37",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "enlaces",
+              "cssSelector": "div.col-sm-3.title a.listtitle",
+              "returnValue": "attribute",
+              "attribute": "href",
+              "returnArray": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        480,
+        -120
+      ],
+      "id": "c4299908-af35-43ea-b3ef-a2b15c2539fe",
+      "name": "HTML"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a4e860c7-786a-4f45-b795-2559fe0f6c5c",
+              "name": "url",
+              "value": "https://clayadavis.gitlab.io/osr-bestiary/bestiary/bfrpg/field-guide-1/",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        40,
+        -120
+      ],
+      "id": "eb1aae77-e4f6-4619-aed9-47c2441f59b4",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "enlaces",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        700,
+        -120
+      ],
+      "id": "bbc5e10c-b905-4c3d-8da9-920fb70a5bd3",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.result }}",
+        "attributes": {
+          "attributes": [
+            {
+              "name": "name",
+              "description": "El nombre del monstruo"
+            },
+            {
+              "name": "hd",
+              "type": "number",
+              "description": "Número de dados de golpe (Hit Dice)"
+            },
+            {
+              "name": "hp",
+              "type": "number",
+              "description": "Puntos de golpe"
+            },
+            {
+              "name": "ac",
+              "type": "number",
+              "description": "Armor Class"
+            },
+            {
+              "name": "attacks",
+              "description": "Descripción de los ataques"
+            },
+            {
+              "name": "morale",
+              "type": "number",
+              "description": "Valor de moral, entre 2 y 12 normalmente"
+            },
+            {
+              "name": "movement",
+              "description": "Velocidad de movimiento, como 30' o 60'"
+            },
+            {
+              "name": "save_as",
+              "description": "Tipo de salvación, como Fighter: 4"
+            },
+            {
+              "name": "alignment",
+              "description": "Alineamiento, como Neutral, Lawful, Chaotic, etc."
+            },
+            {
+              "name": "number_appearing",
+              "description": "Número esperado de criaturas (por ejemplo 1d4, 2d6)"
+            },
+            {
+              "name": "description",
+              "description": "Descripción general del monstruo\t"
+            },
+            {
+              "name": "special",
+              "description": "Habilidades especiales o notas únicas del monstruo\t"
+            }
+          ]
+        },
+        "options": {
+          "systemPromptTemplate": "\n### A esto:\n```plaintext\nExtrae los siguientes datos del texto y devuélvelos como un único objeto JSON plano. No uses formato markdown ni bloques de código. Solo el JSON.\n\nLos campos a extraer son:\nname, hd, ac, attacks, morale, movement, save_as, alignment, number_appearing, description, special\n\nDevuelve solo un objeto JSON.\n\nNo incluyas comillas antes o después del JSON. No uses backticks ni etiquetas. Solo el objeto JSON.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1,
+      "position": [
+        1580,
+        -120
+      ],
+      "id": "f0990d1a-f4e6-4920-88c9-0d071b70f791",
+      "name": "Information Extractor"
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Edit Fields').item.json.url }}{{ $json.enlaces }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1140,
+        -120
+      ],
+      "id": "5ca9a0f2-e5c9-408a-9782-469bed97d930",
+      "name": "HTTP Request monstruo"
+    },
+    {
+      "parameters": {
+        "model": "llama3.2:latest",
+        "options": {
+          "temperature": 0.3
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmOllama",
+      "typeVersion": 1,
+      "position": [
+        1668,
+        100
+      ],
+      "id": "5020f7c1-56c2-4143-92c1-f6473435edc5",
+      "name": "Ollama Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "L94BpXagZU1InOU1",
+          "name": "Ollama account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "result",
+              "cssSelector": "body article"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        1360,
+        -120
+      ],
+      "id": "eef88269-cb06-42ac-999d-66672a94e2a2",
+      "name": "HTML1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "22d59de9-71e6-46f3-b533-44b1145cbd42",
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1140,
+        -320
+      ],
+      "id": "7321e117-26dd-4c17-94df-64ba159b23d6",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "base": {
+          "__rl": true,
+          "value": "appXiZb9r2SJXEO2C",
+          "mode": "list",
+          "cachedResultName": "Hackaton",
+          "cachedResultUrl": "https://airtable.com/appXiZb9r2SJXEO2C"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl0WGr8F3jRXGPti",
+          "mode": "list",
+          "cachedResultName": "monsterDB",
+          "cachedResultUrl": "https://airtable.com/appXiZb9r2SJXEO2C/tbl0WGr8F3jRXGPti"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "name"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "url",
+              "displayName": "url",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "hd",
+              "displayName": "hd",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "hp",
+              "displayName": "hp",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "ac",
+              "displayName": "ac",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "attacks",
+              "displayName": "attacks",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "damage",
+              "displayName": "damage",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "morale",
+              "displayName": "morale",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "movement",
+              "displayName": "movement",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "save_as",
+              "displayName": "save_as",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "alignment",
+              "displayName": "alignment",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "number_appearing",
+              "displayName": "number_appearing",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "description",
+              "displayName": "description",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "special",
+              "displayName": "special",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "typecast": true
+        }
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        2396,
+        5
+      ],
+      "id": "94be8573-b0f4-4c27-bad9-1f8d0de5d0e4",
+      "name": "Airtable",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "LkPhakpicDanWHgL",
+          "name": "Hackaton"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Copia todos los datos originales\nconst m = $json.output;\n\n// 🔹 Limpieza de HD (puede venir con símbolos como \"8**\")\nconst hd = m.hd || 0;\n\n// 🔹 Cálculos adaptados a Knave\nconst hp = hd * 4;\n\n// 🔹 Ajustar AC si está en formato descendente\nlet ac = Number(m.ac);\nif (!isNaN(ac) && ac < 10) {\n  ac = 19 - ac;\n}\n// Construcción manual del objeto final\nconst result = {\n  name: m.name ?? null,\n  hd: hd,\n  hp: hp,\n  ac: ac,\n  attacks: m.attacks ?? null,\n  morale: m.morale ?? null,\n  movement: m.movement ?? null,\n  save_as: m.save_as ?? null,\n  number_appearing: m.number_appearing ?? null,\n  description: m.description ?? null,\n  special: m.special ?? null,\n};\n\nreturn {\n  json: result\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2176,
+        -120
+      ],
+      "id": "5fc92635-a9a4-4dac-9fde-a438484e03c6",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d63122b3-1a36-45fa-ab98-2a7bc3cac819",
+              "name": "output",
+              "value": "={{ $json.output }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1956,
+        -120
+      ],
+      "id": "982737cb-9f9e-4449-bd52-0016c79ec469",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "content": "Toma el contenido de la web, separa los enlaces y los recorre. \n\nPor cada monstruo extrae la información interesante y hace la modificación de su atributo hd.\n\nSe queda bloqueado por algún motivo, pero entre 11 y 13 es capaz de rescatar",
+        "height": 220,
+        "width": 620
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1400,
+        -600
+      ],
+      "typeVersion": 1,
+      "id": "d88977b8-431d-4600-93be-e3f70a4b3fe9",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request monstruo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Information Extractor": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request monstruo": {
+      "main": [
+        [
+          {
+            "node": "HTML1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML1": {
+      "main": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "3bcb0ef4-b443-4073-8ff0-fda0c885d63f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5045cbec8147e6835edbf16d496f5ee0340849107d07dca439fb9c0c1a6a15a9"
+  },
+  "id": "Gd512Ui7yboL5rpX",
+  "tags": [
+    {
+      "createdAt": "2025-03-27T16:25:08.062Z",
+      "updatedAt": "2025-03-27T16:25:08.062Z",
+      "id": "hGOVUt5yGSnSzBIk",
+      "name": "Hackaton"
+    }
+  ]
+}

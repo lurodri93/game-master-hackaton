@@ -1,0 +1,222 @@
+{
+  "name": "Combat Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "query"
+            },
+            {
+              "name": "player",
+              "type": "any"
+            }
+          ]
+        }
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        20,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "name": "characterDB",
+        "description": "Herramienta para obtener todos los datos del personaje con el que se está jugando. Sus stats",
+        "workflowId": {
+          "__rl": true,
+          "value": "zkiGyccWST8jx3RV",
+          "mode": "list",
+          "cachedResultName": "Character flow"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "way": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('way', `search or update`, 'string') }}",
+            "name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('name', `nombre del personaje`, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "way",
+              "displayName": "way",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        340,
+        560
+      ],
+      "id": "27b5e842-389c-47aa-88bf-12ec8c4957e7",
+      "name": "characterDB"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.query }}",
+        "options": {
+          "systemMessage": "=Eres un simulador de combates por turnos usando las reglas de Knave.\n\nTu entrada será siempre un bloque de texto con formato [COMBATE]...[/COMBATE].\n\nTu misión es:\n1. Simular el combate paso a paso, incluyendo rondas.\n2. Mostrar tiradas (por ejemplo: \"Alrik ataca con d20+2 = 17\").\n3. Aplicar las reglas de Knave: si el ataque supera la defensa del enemigo, causa daño (tirada de daño incluida).\n4. Mostrar cuándo el enemigo huye por fallos de moral (si pierde a la mitad del grupo o baja a 50% HP).\n5. Terminar con un resumen claro:\n   - Quién ganó\n   - Cuántos HP le quedan\n   - Si hubo destrucción de armadura o armas\n\n**NO inventes historia ni ambientación. Eres mecánico y técnico.**\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        272,
+        340
+      ],
+      "id": "0ed87c7b-71d8-4ff1-a1c0-7c895c43493e",
+      "name": "CombatAgent"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Busca un oponente aleatorio en Airtable y devuelve su ficha completa.",
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appXiZb9r2SJXEO2C",
+          "mode": "list",
+          "cachedResultName": "Hackaton",
+          "cachedResultUrl": "https://airtable.com/appXiZb9r2SJXEO2C"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl0WGr8F3jRXGPti",
+          "mode": "list",
+          "cachedResultName": "monsterDB",
+          "cachedResultUrl": "https://airtable.com/appXiZb9r2SJXEO2C/tbl0WGr8F3jRXGPti"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtableTool",
+      "typeVersion": 2.1,
+      "position": [
+        580,
+        560
+      ],
+      "id": "9c0198aa-1c58-4b4e-90d8-e7abf6c36978",
+      "name": "Airtable",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "LkPhakpicDanWHgL",
+          "name": "Hackaton"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-3.5-turbo",
+          "mode": "list",
+          "cachedResultName": "gpt-3.5-turbo"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        140,
+        560
+      ],
+      "id": "71eb90cf-a893-4e25-9115-2dc5b180fc54",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "EWBuLrDkP8niqGSP",
+          "name": "OpenAi account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "CombatAgent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "characterDB": {
+      "ai_tool": [
+        [
+          {
+            "node": "CombatAgent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable": {
+      "ai_tool": [
+        [
+          {
+            "node": "CombatAgent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "CombatAgent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "6986e7a9-289a-4745-80ce-428cbe77b8a4",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5045cbec8147e6835edbf16d496f5ee0340849107d07dca439fb9c0c1a6a15a9"
+  },
+  "id": "kpUir0MIjP6XcEpM",
+  "tags": [
+    {
+      "createdAt": "2025-03-27T16:25:08.062Z",
+      "updatedAt": "2025-03-27T16:25:08.062Z",
+      "id": "hGOVUt5yGSnSzBIk",
+      "name": "Hackaton"
+    }
+  ]
+}

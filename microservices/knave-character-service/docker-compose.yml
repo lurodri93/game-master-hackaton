@@ -1,0 +1,16 @@
+services:
+  knave-service:
+    build:
+      context: .
+    container_name: knave-service
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    networks:
+      - knave-net
+    volumes:
+      - .:/app
+
+networks:
+  knave-net:
+    driver: bridge
