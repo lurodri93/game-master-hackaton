@@ -1,0 +1,7 @@
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/lurodri93/front-knave.git
+	
+[submodule "microservices/knave-character-service"]
+	path = microservices/knave-character-service
+	url = https://github.com/lurodri93/knave-character-service.git
