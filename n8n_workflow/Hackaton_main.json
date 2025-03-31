@@ -247,7 +247,8 @@
           "id": "EWBuLrDkP8niqGSP",
           "name": "OpenAi account 2"
         }
-      }
+      },
+      "disabled": true
     },
     {
       "parameters": {
@@ -397,7 +398,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "e030c921-f3bf-43ff-9198-dc12831a4880",
+  "versionId": "67994cec-5b8e-49d0-a012-3c8bfe985aef",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "5045cbec8147e6835edbf16d496f5ee0340849107d07dca439fb9c0c1a6a15a9"
