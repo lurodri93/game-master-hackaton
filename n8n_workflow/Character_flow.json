@@ -4,12 +4,12 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "http://knave-service:8000/create-character",
+        "url": "https://create-character-microservice-db5a4cb7fb53.herokuapp.com/",
         "sendBody": true,
         "bodyParameters": {
           "parameters": [
             {
-              "name": "player_id",
+              "name": "name",
               "value": "={{ $json.name }}"
             }
           ]
@@ -882,7 +882,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "90aed054-7ab3-47f4-91f2-8c4b03bf4ed3",
+  "versionId": "62d08ae1-571e-4c65-957d-a867bbdbd360",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "5045cbec8147e6835edbf16d496f5ee0340849107d07dca439fb9c0c1a6a15a9"
