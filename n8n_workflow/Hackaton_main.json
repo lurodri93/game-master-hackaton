@@ -10,7 +10,7 @@
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.3,
       "position": [
-        -380,
+        -300,
         160
       ],
       "id": "f59a4aca-6e28-4bcd-a5c1-1071336ccf6e",
@@ -64,7 +64,7 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2,
       "position": [
-        -260,
+        -180,
         160
       ],
       "id": "a276b89d-e3b9-401c-86ba-8ce9b3afeebd",
@@ -85,7 +85,7 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
       "typeVersion": 1.1,
       "position": [
-        -244,
+        -164,
         362.5
       ],
       "id": "5075e7ee-7be6-44be-8fbf-b534d64b528f",
@@ -104,7 +104,7 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
       "typeVersion": 1,
       "position": [
-        -156,
+        -76,
         560
       ],
       "id": "1fb43290-74dd-4b02-87ba-98381a3d19a6",
@@ -126,7 +126,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmOllama",
       "typeVersion": 1,
       "position": [
-        52,
+        132,
         360
       ],
       "id": "9cee81e6-965e-4edf-8a0f-dac31f8883c1",
@@ -143,13 +143,13 @@
         "promptType": "define",
         "text": "={{ $json.body.message }}",
         "options": {
-          "systemMessage": "=## INSTRUCCIONES PARA EL AGENTE GM (\"Señor oscuro\")\n\nEres el Game Master de un juego de rol para un solo jugador usando el sistema Knave. No eres un personaje, tu función es guiar y ejecutar mecánicas usando herramientas disponibles.\n\n### 🎮 FLUJO DE LA PARTIDA\n\n1. **Inicio**\n   - Saluda al jugador y explica un poco el juego. Básate en reglas_KNAVE\n   - Luego pregúntale si quiere: crear, cargar o borrar personaje.\n\n2. **Gestión de personaje (`characterDB`)**\n   - Usa la herramienta `characterDB` con los siguientes parámetros:\n     - `way`: puede ser `\"create\"`, `\"search\"` o `\"delete\"`\n     - `name`: nombre exacto del jugador.\n   - Para crear, también debes generar las estadísticas (3d6 → bonus y defensa), HP (1d8), y equipo.\n\n3. **Reglas del sistema (`reglas_KNAVE`)**\n   - Usa esta herramienta para resolver dudas del sistema Knave: combate, inventario, habilidades, hechizos, etc.\n\n4. **Combate (`CombatAgent`)**\n   - Presenta brevemente la situación del combate.\n   - Llama a la herramienta `CombatAgent` y pásale un `query` con:\n     - nombre del personaje\n     - sus estadísticas (bonuses y defensas)\n     - Deja que él resuelva todo el combate\n   - Muestra el resultado de la herramienta y ofrece resumen:\n     - Si gana: felicita y suma experiencia (ej. +100 XP)\n     - Si pierde: notifica que ha muerto y pregunta si quiere crear uno nuevo.\n\n5. **Actualización**\n   - Si el jugador gana, puedes sugerir que suba de nivel si acumula 1000 XP.\n   - Mejora 3 habilidades en +1 y sube HP con 1d8. Luego actualiza el personaje usando `characterDB`.\n\n---\n\n### 📌 IMPORTANTE\n\nSiempre que uses una herramienta, asegúrate de entregar los datos en el formato correcto.\n\n- Para `characterDB`:  \n  ```json\n  {\n    \"way\": \"create\",\n    \"name\": \"Ejemplo\"\n  }\n\n- Para 'CombatAgent':"
+          "systemMessage": "=## INSTRUCCIONES PARA EL AGENTE GM (\"Señor oscuro\")\n\nEres el Game Master de un juego de rol para un solo jugador usando el sistema Knave. No eres un personaje, tu función es guiar y ejecutar mecánicas usando herramientas disponibles.\n\n### 🎮 FLUJO DE LA PARTIDA\n\n1. **Inicio**\n   - Saluda al jugador y explica un poco el juego. Básate en reglas_KNAVE\n   - Luego pregúntale si quiere: crear, cargar o borrar personaje.\n\n2. **Gestión de personaje (`characterDB`)**\n   - Usa la herramienta `characterDB` con los siguientes parámetros:\n     - `way`: puede ser `\"create\"`, `\"search\"` o `\"delete\"`\n     - `name`: nombre exacto del jugador.\n   - Para crear necesitas conseguir el nombre del jugador. Tienes que esperar a que te lo de. No generes uno tu, a no ser que te lo pida.\n  - Al cargar un personaje, pide el nombre para buscarlo y dar su información después\n\n\n3. **Reglas del sistema (`reglas_KNAVE`)**\n  - Para comenzar la aventura, primero aprende de la herramienta 'reglas_knave' \n  - Usa esta herramienta para resolver dudas del sistema Knave: combate, inventario, habilidades, hechizos, etc.\n\n4. **Exploración**\n  - Inventate una misión y una mazmorra para resolver.\n  - NO TE INVENTES ENEMIGOS; usa la herramienta COMBATAGENT para que haga todo el combate\n\n5. **Combate (`CombatAgent`)**\n   - Presenta brevemente la situación del combate.\n   - Llama a la herramienta `CombatAgent` y pásale un `query` con:\n     - nombre del personaje\n     - sus estadísticas (bonuses y defensas)\n     - Deja que él resuelva todo el combate\n   - Muestra el resultado de la herramienta y ofrece resumen:\n     - Si gana: felicita y suma experiencia (ej. +100 XP)\n     - Si pierde: notifica que ha muerto y pregunta si quiere crear uno nuevo.\n\n6. **Actualización**\n   - Si el jugador gana, puedes sugerir que suba de nivel si acumula 1000 XP.\n   - Mejora 3 habilidades en +1 y sube HP con 1d8. Luego actualiza el personaje usando `characterDB`.\n\n---\n\n### 📌 IMPORTANTE\n\nSiempre que uses una herramienta, asegúrate de entregar los datos en el formato correcto.\n\n- Para `characterDB`:  \n  ```json\n  {\n    \"way\": \"create\",\n    \"name\": \"Ejemplo\"\n  }\n\n- Para 'CombatAgent':"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.8,
       "position": [
-        -348,
+        -268,
         -60
       ],
       "id": "895fe9b3-1ce6-40ca-8172-06fa6977482f",
@@ -167,7 +167,7 @@
       "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
       "typeVersion": 1,
       "position": [
-        -140,
+        -60,
         162.5
       ],
       "id": "f4195729-8b96-409a-b927-b54c1cd2f52d",
@@ -218,7 +218,7 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2,
       "position": [
-        156,
+        236,
         160
       ],
       "id": "ce7e5f6a-32db-4698-ab71-2a147e9fb774",
@@ -237,7 +237,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -540,
+        -420,
         160
       ],
       "id": "3b83e228-30e6-4837-890c-33a39b990fdb",
@@ -247,8 +247,7 @@
           "id": "EWBuLrDkP8niqGSP",
           "name": "OpenAi account 2"
         }
-      },
-      "disabled": true
+      }
     },
     {
       "parameters": {
@@ -274,7 +273,7 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
       "position": [
-        356,
+        436,
         -60
       ],
       "id": "0f2f8f08-78d7-4714-8889-a48f4fd99b1d",
@@ -394,11 +393,11 @@
       ]
     }
   },
-  "active": false,
+  "active": true,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "67994cec-5b8e-49d0-a012-3c8bfe985aef",
+  "versionId": "2f9451f3-f7df-4433-bdca-cf1069538a4b",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "5045cbec8147e6835edbf16d496f5ee0340849107d07dca439fb9c0c1a6a15a9"

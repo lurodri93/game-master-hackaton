@@ -4,16 +4,10 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://create-character-microservice-db5a4cb7fb53.herokuapp.com/",
+        "url": "https://create-character-microservice-db5a4cb7fb53.herokuapp.com/create-character",
         "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            {
-              "name": "name",
-              "value": "={{ $json.name }}"
-            }
-          ]
-        },
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"body\": {\n    \"name\": \"{{ $('When Executed by Another Workflow').item.json.name }}\"\n  }\n}",
         "options": {
           "timeout": 1000
         }
@@ -21,7 +15,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        800,
+        560,
         20
       ],
       "id": "ebcea86a-2ab5-427d-b873-eebc23d74187",
@@ -52,6 +46,39 @@
             {
               "id": "player_id",
               "displayName": "player_id",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "level",
+              "displayName": "level",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "experience",
+              "displayName": "experience",
               "required": false,
               "defaultMatch": false,
               "canBeUsedToMatch": true,
@@ -405,12 +432,14 @@
           "attemptToConvertTypes": false,
           "convertFieldsToString": false
         },
-        "options": {}
+        "options": {
+          "typecast": false
+        }
       },
       "type": "n8n-nodes-base.airtable",
       "typeVersion": 2.1,
       "position": [
-        1020,
+        780,
         20
       ],
       "id": "2027d0e5-80e2-45a1-8cc8-8ed877fa74ff",
@@ -552,8 +581,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        360,
-        278
+        120,
+        303
       ],
       "id": "4f22360b-1337-4217-aace-5a79b0973ba9",
       "name": "Switch"
@@ -583,8 +612,8 @@
       "type": "n8n-nodes-base.airtable",
       "typeVersion": 2.1,
       "position": [
-        580,
-        280
+        340,
+        270
       ],
       "id": "e0dffaee-a608-4359-88e7-f2178bed4823",
       "name": "Airtable2",
@@ -618,8 +647,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        60,
-        320
+        -100,
+        345
       ],
       "id": "ec1677d6-a41e-4be0-a758-623117bdf537",
       "name": "Edit Fields"
@@ -641,13 +670,13 @@
           "cachedResultName": "characterDB",
           "cachedResultUrl": "https://airtable.com/appXiZb9r2SJXEO2C/tblWa5MbsCn0zH4Jd"
         },
-        "id": "={{ $json.id }}"
+        "id": "={{ $('Airtable3') }}"
       },
       "type": "n8n-nodes-base.airtable",
       "typeVersion": 2.1,
       "position": [
-        800,
-        520
+        560,
+        595
       ],
       "id": "66f00819-8d00-42e3-af9d-964cee7fab05",
       "name": "Airtable1",
@@ -675,7 +704,7 @@
           "cachedResultName": "characterDB",
           "cachedResultUrl": "https://airtable.com/appXiZb9r2SJXEO2C/tblWa5MbsCn0zH4Jd"
         },
-        "filterByFormula": "={player_id} = '{{ $('When Executed by Another Workflow').item.json.player_id }}'",
+        "filterByFormula": "={name} = '{{ $('When Executed by Another Workflow').item.json.name }}'",
         "returnAll": false,
         "limit": 1,
         "options": {}
@@ -683,8 +712,8 @@
       "type": "n8n-nodes-base.airtable",
       "typeVersion": 2.1,
       "position": [
-        580,
-        520
+        340,
+        595
       ],
       "id": "d5fc238b-ec40-4500-b0b7-786f15023a7f",
       "name": "Airtable3",
@@ -707,7 +736,7 @@
           "conditions": [
             {
               "id": "d9e3fe91-8299-4906-a929-4402ac69f46b",
-              "leftValue": "={{ $('When Executed by Another Workflow').item.json.player_id }}",
+              "leftValue": "={{ $('When Executed by Another Workflow').item.json.name }}",
               "rightValue": "",
               "operator": {
                 "type": "string",
@@ -723,8 +752,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        580,
-        120
+        340,
+        70
       ],
       "id": "6cc40148-7754-466d-bd7f-f0a4c20a9060",
       "name": "If"
@@ -746,10 +775,11 @@
       "typeVersion": 1.1,
       "position": [
         -320,
-        320
+        345
       ],
       "id": "92242219-6675-458e-a2c3-cc0d8059300c",
-      "name": "When Executed by Another Workflow"
+      "name": "When Executed by Another Workflow",
+      "disabled": true
     },
     {
       "parameters": {
@@ -758,8 +788,8 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        800,
-        320
+        560,
+        370
       ],
       "id": "67dc72cd-9b39-474a-a2fc-366d83707019",
       "name": "Stop and Error"
@@ -882,7 +912,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "62d08ae1-571e-4c65-957d-a867bbdbd360",
+  "versionId": "1c504d0b-eb86-45c4-aa58-cee2d80853fb",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "5045cbec8147e6835edbf16d496f5ee0340849107d07dca439fb9c0c1a6a15a9"
